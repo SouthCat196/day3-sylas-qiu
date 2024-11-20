@@ -11,18 +11,7 @@ public class WordFrequencyGame {
             return sentence + " 1";
         } else {
             try {
-                //split the input string with 1 to n pieces of spaces
-                String[] words = sentence.split(SPACE_REGEX);
-
-                //get the wordToWordFrequencies for the next step of sizing the same word
-                Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
-
-                List<WordFrequency> wordFrequencies = wordToWordFrequencies.entrySet()
-                        .stream()
-                        .map(wordFrequencyEntry ->
-                                new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
-                        .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
-                        .toList();
+                List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
 
                 return wordFrequencies.stream()
                         .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getCount())
@@ -31,6 +20,22 @@ public class WordFrequencyGame {
                 return "Calculate Error";
             }
         }
+    }
+
+    private List<WordFrequency> getInitialWordFrequencies(String sentence) {
+        //split the input string with 1 to n pieces of spaces
+        String[] words = sentence.split(SPACE_REGEX);
+
+        //get the wordToWordFrequencies for the next step of sizing the same word
+        Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
+
+        List<WordFrequency> wordFrequencies = wordToWordFrequencies.entrySet()
+                .stream()
+                .map(wordFrequencyEntry ->
+                        new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
+                .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
+                .toList();
+        return wordFrequencies;
     }
 
     private Map<String, List<WordFrequency>> computeWordFrequency(String[] words) {
