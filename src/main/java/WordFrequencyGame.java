@@ -41,18 +41,9 @@ public class WordFrequencyGame {
     }
 
     private Map<String, List<WordFrequency>> computeWordFrequency(String[] words) {
-        Map<String, List<WordFrequency>> wordFrequencyMap = new HashMap<>();
-        for (String word : words) {
-//       wordFrequencyMap.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
-            if (!wordFrequencyMap.containsKey(word)) {
-                ArrayList arr = new ArrayList<>();
-                arr.add(new WordFrequency(word, 1));
-                wordFrequencyMap.put(word, arr);
-            } else {
-                wordFrequencyMap.get(word).add(new WordFrequency(word, 1));
-            }
-        }
-        return wordFrequencyMap;
+        return Arrays.stream(words)
+                .map(word -> new WordFrequency(word, 1))
+                .collect(Collectors.groupingBy(WordFrequency::getWord));
     }
 
 }
