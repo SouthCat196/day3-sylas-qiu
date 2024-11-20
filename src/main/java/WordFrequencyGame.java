@@ -9,21 +9,14 @@ public class WordFrequencyGame {
                 //split the input string with 1 to n pieces of spaces
                 String[] words = sentence.split("\\s+");
 
-                List<WordFrequency> wordFrequencyList = new ArrayList<>();
-                for (String word : words) {
-                    WordFrequency wordFrequency = new WordFrequency(word, 1);
-                    wordFrequencyList.add(wordFrequency);
-                }
-
                 //get the wordFrequencyMap for the next step of sizing the same word
-                Map<String, List<WordFrequency>> wordFrequencyMap = computeWordFrequency(wordFrequencyList);
+                Map<String, List<WordFrequency>> wordFrequencyMap = computeWordFrequency(words);
 
-                List<WordFrequency> list = new ArrayList<>();
+                List<WordFrequency> wordFrequencyList = new ArrayList<>();
                 for (Map.Entry<String, List<WordFrequency>> entry : wordFrequencyMap.entrySet()) {
                     WordFrequency wordFrequency = new WordFrequency(entry.getKey(), entry.getValue().size());
-                    list.add(wordFrequency);
+                    wordFrequencyList.add(wordFrequency);
                 }
-                wordFrequencyList = list;
 
                 wordFrequencyList.sort((w1, w2) -> w2.getCount() - w1.getCount());
 
@@ -39,20 +32,19 @@ public class WordFrequencyGame {
         }
     }
 
-    private Map<String, List<WordFrequency>> computeWordFrequency(List<WordFrequency> wordFrequencyList) {
+    private Map<String, List<WordFrequency>> computeWordFrequency(String[] words) {
         Map<String, List<WordFrequency>> wordFrequencyMap = new HashMap<>();
-        for (WordFrequency wordFrequency : wordFrequencyList) {
+        for (String word : words) {
 //       wordFrequencyMap.computeIfAbsent(input.getValue(), k -> new ArrayList<>()).add(input);
-            if (!wordFrequencyMap.containsKey(wordFrequency.getWord())) {
+            if (!wordFrequencyMap.containsKey(word)) {
                 ArrayList arr = new ArrayList<>();
-                arr.add(wordFrequency);
-                wordFrequencyMap.put(wordFrequency.getWord(), arr);
+                arr.add(new WordFrequency(word, 1));
+                wordFrequencyMap.put(word, arr);
             } else {
-                wordFrequencyMap.get(wordFrequency.getWord()).add(wordFrequency);
+                wordFrequencyMap.get(word).add(new WordFrequency(word, 1));
             }
         }
         return wordFrequencyMap;
     }
-
 
 }
