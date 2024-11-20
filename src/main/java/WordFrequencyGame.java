@@ -1,13 +1,16 @@
 import java.util.*;
 
 public class WordFrequencyGame {
+
+    public static final String SPACE_REGEX = "\\s+";
+
     public String getResult(String sentence) {
-        if (sentence.split("\\s+").length == 1) {
+        if (sentence.split(SPACE_REGEX).length == 1) {
             return sentence + " 1";
         } else {
             try {
                 //split the input string with 1 to n pieces of spaces
-                String[] words = sentence.split("\\s+");
+                String[] words = sentence.split(SPACE_REGEX);
 
                 //get the wordFrequencyMap for the next step of sizing the same word
                 Map<String, List<WordFrequency>> wordFrequencyMap = computeWordFrequency(words);
