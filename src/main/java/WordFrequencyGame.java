@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
@@ -9,49 +10,16 @@ public class WordFrequencyGame {
     public static final String SPACE = " ";
 
     public String getResult(String sentence) {
-
-
         try {
-//            List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
-//            return getResult(wordFrequencies);
             return Arrays.stream(sentence.split(SPACE_REGEX))
-                    .map(word -> new WordFrequency(word, 1))
-                    .collect(Collectors.groupingBy(WordFrequency::getWord))
+                    .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
                     .entrySet()
                     .stream()
-                    .map(wordFrequencyEntry ->
-                            new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
-                    .sorted((current, next) -> next.getCount() - current.getCount())
-                    .map(wordFrequency -> wordFrequency.getWord() + SPACE + wordFrequency.getCount())
+                    .sorted((current, next) -> next.getValue().compareTo(current.getValue()))
+                    .map(wordFrequency -> wordFrequency.getKey() + SPACE +wordFrequency.getValue())
                     .collect(Collectors.joining(LINE_BREAK));
         } catch (Exception e) {
             return CALCULATE_ERROR + e;
         }
     }
-
-    private static String getResult(List<WordFrequency> wordFrequencies) {
-        return wordFrequencies.stream()
-                .map(wordFrequency -> wordFrequency.getWord() + SPACE + wordFrequency.getCount())
-                .collect(Collectors.joining(LINE_BREAK));
-    }
-
-    private List<WordFrequency> getInitialWordFrequencies(String sentence) {
-        String[] words = sentence.split(SPACE_REGEX);
-
-        Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
-
-        return wordToWordFrequencies.entrySet()
-                .stream()
-                .map(wordFrequencyEntry ->
-                        new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
-                .sorted(((current, next) -> next.getCount() - current.getCount()))
-                .toList();
-    }
-
-    private Map<String, List<WordFrequency>> computeWordFrequency(String[] words) {
-        return Arrays.stream(words)
-                .map(word -> new WordFrequency(word, 1))
-                .collect(Collectors.groupingBy(WordFrequency::getWord));
-    }
-
 }
