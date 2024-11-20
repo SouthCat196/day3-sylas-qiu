@@ -5,13 +5,14 @@ public class WordFrequencyGame {
 
     public static final String SPACE_REGEX = "\\s+";
     public static final String LINE_BREAK = "\n";
+    public static final String CALCULATE_ERROR = "Calculate Error: ";
 
     public String getResult(String sentence) {
         try {
             List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
             return getResult(wordFrequencies);
         } catch (Exception e) {
-            return "Calculate Error";
+            return CALCULATE_ERROR + e;
         }
     }
 
