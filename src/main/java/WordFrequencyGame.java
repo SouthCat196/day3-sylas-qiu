@@ -9,9 +9,21 @@ public class WordFrequencyGame {
     public static final String SPACE = " ";
 
     public String getResult(String sentence) {
+
+
         try {
-            List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
-            return getResult(wordFrequencies);
+//            List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
+//            return getResult(wordFrequencies);
+            return Arrays.stream(sentence.split(SPACE_REGEX))
+                    .map(word -> new WordFrequency(word, 1))
+                    .collect(Collectors.groupingBy(WordFrequency::getWord))
+                    .entrySet()
+                    .stream()
+                    .map(wordFrequencyEntry ->
+                            new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
+                    .sorted((current, next) -> next.getCount() - current.getCount())
+                    .map(wordFrequency -> wordFrequency.getWord() + SPACE + wordFrequency.getCount())
+                    .collect(Collectors.joining(LINE_BREAK));
         } catch (Exception e) {
             return CALCULATE_ERROR + e;
         }
