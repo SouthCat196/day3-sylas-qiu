@@ -13,13 +13,17 @@ public class WordFrequencyGame {
             try {
                 List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
 
-                return wordFrequencies.stream()
-                        .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getCount())
-                        .collect(Collectors.joining(LINE_BREAK));
+                return getResult(wordFrequencies);
             } catch (Exception e) {
                 return "Calculate Error";
             }
         }
+    }
+
+    private static String getResult(List<WordFrequency> wordFrequencies) {
+        return wordFrequencies.stream()
+                .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getCount())
+                .collect(Collectors.joining(LINE_BREAK));
     }
 
     private List<WordFrequency> getInitialWordFrequencies(String sentence) {
