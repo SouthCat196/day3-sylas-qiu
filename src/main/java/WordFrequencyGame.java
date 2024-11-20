@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class WordFrequencyGame {
 
@@ -15,13 +16,12 @@ public class WordFrequencyGame {
                 //get the wordToWordFrequencies for the next step of sizing the same word
                 Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
 
-                List<WordFrequency> wordFrequencyList = new ArrayList<>();
-                for (Map.Entry<String, List<WordFrequency>> entry : wordToWordFrequencies.entrySet()) {
-                    WordFrequency wordFrequency = new WordFrequency(entry.getKey(), entry.getValue().size());
-                    wordFrequencyList.add(wordFrequency);
-                }
-
-                wordFrequencyList.sort((w1, w2) -> w2.getCount() - w1.getCount());
+                List<WordFrequency> wordFrequencyList = wordToWordFrequencies.entrySet()
+                        .stream()
+                        .map(wordFrequencyEntry ->
+                                new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
+                        .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
+                        .toList();
 
                 StringJoiner joiner = new StringJoiner("\n");
                 for (WordFrequency w : wordFrequencyList) {
