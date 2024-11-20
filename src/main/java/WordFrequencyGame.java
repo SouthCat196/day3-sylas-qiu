@@ -32,7 +32,7 @@ public class WordFrequencyGame {
                 .stream()
                 .map(wordFrequencyEntry ->
                         new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
-                .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
+                .sorted(((current, next) -> next.getCount() - current.getCount()))
                 .toList();
     }
 
