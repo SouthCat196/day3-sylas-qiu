@@ -12,7 +12,6 @@ public class WordFrequencyGame {
         } else {
             try {
                 List<WordFrequency> wordFrequencies = getInitialWordFrequencies(sentence);
-
                 return getResult(wordFrequencies);
             } catch (Exception e) {
                 return "Calculate Error";
@@ -33,13 +32,12 @@ public class WordFrequencyGame {
         //get the wordToWordFrequencies for the next step of sizing the same word
         Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
 
-        List<WordFrequency> wordFrequencies = wordToWordFrequencies.entrySet()
+        return wordToWordFrequencies.entrySet()
                 .stream()
                 .map(wordFrequencyEntry ->
                         new WordFrequency(wordFrequencyEntry.getKey(), wordFrequencyEntry.getValue().size()))
                 .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
                 .toList();
-        return wordFrequencies;
     }
 
     private Map<String, List<WordFrequency>> computeWordFrequency(String[] words) {
