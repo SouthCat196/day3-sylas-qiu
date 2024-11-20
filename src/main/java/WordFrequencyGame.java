@@ -4,6 +4,7 @@ import java.util.stream.Collectors;
 public class WordFrequencyGame {
 
     public static final String SPACE_REGEX = "\\s+";
+    public static final String LINE_BREAK = "\n";
 
     public String getResult(String sentence) {
         if (sentence.split(SPACE_REGEX).length == 1) {
@@ -23,12 +24,9 @@ public class WordFrequencyGame {
                         .sorted(((o1, o2) -> o2.getCount() - o1.getCount()))
                         .toList();
 
-                StringJoiner joiner = new StringJoiner("\n");
-                for (WordFrequency w : wordFrequencies) {
-                    String s = w.getWord() + " " + w.getCount();
-                    joiner.add(s);
-                }
-                return joiner.toString();
+                return wordFrequencies.stream()
+                        .map(wordFrequency -> wordFrequency.getWord() + " " + wordFrequency.getCount())
+                        .collect(Collectors.joining(LINE_BREAK));
             } catch (Exception e) {
                 return "Calculate Error";
             }
