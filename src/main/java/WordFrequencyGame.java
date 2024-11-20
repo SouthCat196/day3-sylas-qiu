@@ -24,10 +24,8 @@ public class WordFrequencyGame {
     }
 
     private List<WordFrequency> getInitialWordFrequencies(String sentence) {
-        //split the input string with 1 to n pieces of spaces
         String[] words = sentence.split(SPACE_REGEX);
 
-        //get the wordToWordFrequencies for the next step of sizing the same word
         Map<String, List<WordFrequency>> wordToWordFrequencies = computeWordFrequency(words);
 
         return wordToWordFrequencies.entrySet()
